@@ -5,6 +5,9 @@
 {% block body %}
 <article>
     <h1>{{ post.title }}</h1>
+    {% if post.imageName %}
+        <img src="/uploads/posts/{{ post.imageName }}" alt="{{ post.title }}">
+    {% endif %}
     <p>{{ post.content }}</p>
 </article>
 
