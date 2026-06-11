@@ -8,7 +8,7 @@
     {% if post.imageName %}
         <img src="/uploads/posts/{{ post.imageName }}" alt="{{ post.title }}">
     {% endif %}
-    <p>{{ post.content }}</p>
+    <div>{{ post.content|raw }}</div>
 </article>
 
 <section>

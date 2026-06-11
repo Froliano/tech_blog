@@ -2,15 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Vich\UploaderBundle\Mapping\Attribute\Uploadable;
 use Vich\UploaderBundle\Mapping\Attribute\UploadableField;
 
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+    ],
+    normalizationContext: ['groups' => ['post:read']],
+)]
 #[Uploadable]
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -18,21 +29,26 @@ class Post
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['post:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['post:read'])]
     private ?string $Title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['post:read'])]
     private ?string $content = null;
 
     #[UploadableField(mapping: 'post_image', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['post:read'])]
     private ?string $imageName = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['post:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**
